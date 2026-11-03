@@ -2,84 +2,109 @@ opcao = 7
 entradas = []
 despesas = []
 
-print(f'{" FINANCIAL CONTROL ":=^40}')
+total_entradas = 0
+total_despesas = 0
+
+saldo_inicial = float(input('Digite seu saldo inicial: R$ '))
 
 while opcao != 0:
-    print('''
-           [1] Registrar entrada
-           [2] Registrar despesa
-           [3] Listar movimentações
-           [4] Consultar saldo
-           [5] Relatório financeiro
-           [0] Sair''')
+    print(f'\n{" CONTROLE FINANCEIRO ":=^40}')
+    print('[1] Registrar entrada')
+    print('[2] Registrar despesa')
+    print('[3] Listar movimentações')
+    print('[4] Consultar saldo')
+    print('[5] Relatório financeiro')
+    print('[0] Sair')
 
-    opcao = int(input('\nO que deseja fazer? '))
+    opcao = int(input('Escolha uma opção: '))
 
     if opcao == 1:
-        continuar = 's'
+        continuar = 'S'
 
-        while continuar == 's':
-            nome = input('Digite o nome da entrada: ')
-            valor = float(input('Digite o valor da entrada: '))
+        while continuar == 'S':
+            nome = input('Descrição da entrada: ')
+            valor = float(input('Valor da entrada: R$ '))
+
             entradas.append((nome, valor))
+            total_entradas += valor
 
-            print('\nEntrada registrada com sucesso!')
-            continuar = input('\nDeseja registrar outra entrada? [s/n] ')
+            continuar = input('Deseja registrar outra entrada? [S/N] ').upper()
 
     elif opcao == 2:
-        nome = input('Digite o nome da despesa: ')
-        valor = float(input('Digite o valor da despesa: '))
-        despesas.append((nome, valor))
+        continuar = 'S'
 
-        print('\nDespesa registrada com sucesso!')
+        while continuar == 'S':
+            nome = input('Descrição da despesa: ')
+            valor = float(input('Valor da despesa: R$ '))
+
+            despesas.append((nome, valor))
+            total_despesas += valor
+
+            continuar = input('Deseja registrar outra despesa? [S/N] ').upper()
 
     elif opcao == 3:
-        print(f'{" MOVIMENTAÇÕES ":=^40}')
-        print('''
-        [1] Listar entradas
-        [2] Listar despesas
-        [3] Voltar ao menu principal''')
+        escolha = 0
 
-        escolha = int(input('\nO que deseja visualizar? '))
+        while escolha != 3:
+            print(f'\n{" MOVIMENTAÇÕES ":=^40}')
+            print('[1] Listar entradas')
+            print('[2] Listar despesas')
+            print('[3] Voltar ao menu principal')
 
-        if escolha == 1:
-            print(f'\n{" ENTRADAS ":=^40}')
+            escolha = int(input('Escolha uma opção: '))
 
-            if len(entradas) == 0:
-                print('\nNenhuma entrada registrada.')
-            else:
-                print(f'{" DESCRIÇÃO ":<25}{" VALOR ":>15}')
-                print('-' * 40)
+            if escolha == 1:
+                print(f'\n{" LISTAGEM DE ENTRADAS ":=^40}')
 
                 for movimentacao in entradas:
-                    print(
-                        f'{movimentacao[0]:<25}'
-                        f'R$ {movimentacao[1]:>10.2f}'
-                    )
+                    print(f'{movimentacao[0]:<25}R$ {movimentacao[1]:>10.2f}')
 
-        elif escolha == 2:
-            print(f'\n{" DESPESAS ":=^40}')
+                print('=' * 40)
+                print(f'{" Total de entradas: ":<25}R$ {total_entradas:>10.2f}')
 
-            if len(despesas) == 0:
-                print('\nNenhuma despesa registrada.')
-            else:
-                print(f'{" DESCRIÇÃO ":<25}{" VALOR ":>15}')
-                print('-' * 40)
+                continuar = input('Deseja visualizar outra movimentação? [S/N] ').upper()
+
+                if continuar == 'N':
+                    escolha = 3
+
+            elif escolha == 2:
+                print(f'\n{" LISTAGEM DE DESPESAS ":=^40}')
 
                 for movimentacao in despesas:
-                    print(
-                        f'{movimentacao[0]:<25}'
-                        f'R$ {movimentacao[1]:>10.2f}'
-                    )
+                    print(f'{movimentacao[0]:<25}R$ {movimentacao[1]:>10.2f}')
+
+                print('=' * 40)
+                print(f'{" Total de despesas: ":<25}R$ {total_despesas:>10.2f}')
+
+                continuar = input('Deseja visualizar outra movimentação? [S/N] ').upper()
+
+                if continuar == 'N':
+                    escolha = 3
+
+            elif escolha == 3:
+                print('Voltando ao menu principal...')
 
     elif opcao == 4:
-        print('Consulta de saldo ainda será implementada.')
+        saldo_atual = saldo_inicial + total_entradas - total_despesas
+
+        print(f'\n{" CONSULTA DE SALDO ":=^40}')
+        print(f'{" Saldo inicial: ":<25}R$ {saldo_inicial:>10.2f}')
+        print(f'{" Saldo atual: ":<25}R$ {saldo_atual:>10.2f}')
 
     elif opcao == 5:
-        print('Relatório financeiro ainda será implementado.')
+        saldo_atual = saldo_inicial + total_entradas - total_despesas
+
+        print(f'\n{" RELATÓRIO FINANCEIRO ":=^40}')
+        print(f'{" Saldo inicial: ":<25}R$ {saldo_inicial:>10.2f}')
+        print(f'{" Entradas registradas: ":<25}{len(entradas):>10}')
+        print(f'{" Total de entradas: ":<25}R$ {total_entradas:>10.2f}')
+        print(f'{" Despesas registradas: ":<25}{len(despesas):>10}')
+        print(f'{" Total de despesas: ":<25}R$ {total_despesas:>10.2f}')
+        print('=' * 40)
+        print(f'{" Saldo atual: ":<25}R$ {saldo_atual:>10.2f}')
 
     elif opcao == 0:
-        print('\nSaindo do Financial Control...')
+        print('Encerrando o sistema...')
 
     else:
-        print('\nOpção inválida! Tente novamente.')
+        print('Opção inválida.')
